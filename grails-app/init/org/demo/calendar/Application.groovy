@@ -1,4 +1,4 @@
-package calendarapi
+package org.demo.calendar
 
 import grails.boot.GrailsApp
 import grails.boot.config.GrailsAutoConfiguration

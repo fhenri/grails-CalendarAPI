@@ -1,4 +1,4 @@
-package calendarapi
+package org.demo.calendar
 
 import grails.core.GrailsApplication
 import grails.plugins.*
