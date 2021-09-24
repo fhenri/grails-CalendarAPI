@@ -53,4 +53,4 @@ There are many things that could be improved.
 
 One would be to use json views so we could put more logic in the view (date conversion, parameters output) and potentially align the output of both `Event` and `CalendarEvent` class.
 
-I am using the java.time API and specifically the ZonedDateTime to manage with TimeZone, it cannot be deserialize using jackson only, I am using transient field to run the conversion from a string to the zonedDateTime (registering and using a custom JSonDeserializer did not work !) There are also lot of conversion and date manipulation (with the org-dmfs DateTime object) which could be moved to Util method.
+I am using the java.time API and specifically the ZonedDateTime to manage with TimeZone, it cannot be deserialize using jackson only, I am using string field to run the conversion from a string to the zonedDateTime (registering and using a custom JSonDeserializer did not work !) There are also lot of conversion and date manipulation (with the org-dmfs DateTime object) which could be moved to Util method. Ideally those fields should be transient, better a desizerialize should be register.

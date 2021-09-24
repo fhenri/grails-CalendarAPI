@@ -1,6 +1,7 @@
 package org.demo.calendar
 
-import java.time.LocalDateTime;
+import java.time.LocalDateTime
+import java.time.ZonedDateTime;
 
 class Event {
 
@@ -9,8 +10,8 @@ class Event {
 
     Long id
     String name
-    LocalDateTime startTime
-    LocalDateTime endTime
+    ZonedDateTime startTime
+    ZonedDateTime endTime
 
     static constraints = {
         name required: true

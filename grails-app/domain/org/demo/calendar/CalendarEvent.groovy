@@ -15,7 +15,7 @@ class CalendarEvent {
 
     String name
 
-    static transients = ['startDate', 'endDate']
+    //static transients = ['startDate', 'endDate']
     String startDate
     String endDate
 
@@ -44,12 +44,15 @@ class CalendarEvent {
         rrule nullable: true
         startRecurrence nullable: true
         endRecurrence nullable: true
+
+        startDate nullable: true
+        endDate nullable: true
     }
 
     def beforeValidate() {
-        startDateTime   = startDate ? ZonedDateTime.parse(startDate) : ZonedDateTime.now()
+        startDateTime   = startDateTime ?: (startDate ? ZonedDateTime.parse(startDate) : ZonedDateTime.now())
         // XXX this could/should be moved in a service to handle the fact endTime could be null, less than start time and all condition so returning a new exception for those cases. for now if endTime is not provided we will assume it is startTime + 1 hour and we dont handle case when endTime is not greater than startTime
-        endDateTime     = !endDate ? ((startDateTime == null) ? ZonedDateTime.now().minusHours(-1) : startDateTime.minusHours(-1)) : ZonedDateTime.parse(endDate)
+        endDateTime     = endDateTime ?: (!endDate && startDateTime ? startDateTime.minusHours(-1) : ZonedDateTime.parse(endDate))
         startTime       = startDateTime.toLocalTime()
         endTime         = endDateTime.toLocalTime()
         hour            = startTime.hour

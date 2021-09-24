@@ -2,7 +2,6 @@ package org.demo.calendar
 
 import grails.gorm.transactions.Transactional
 import org.dmfs.rfc5545.DateTime
-import org.dmfs.rfc5545.Duration
 import org.dmfs.rfc5545.recur.RecurrenceRule
 import org.dmfs.rfc5545.recur.RecurrenceRuleIterator
 
@@ -59,7 +58,7 @@ class CalendarService {
                 "where startDateTime >= :start_time and endDateTime <= :end_time",
                 [start_time: startDate, end_time: endDate],
                 [sort:"startRecurrence", order:"asc"]).each {
-            list.add (new Event(name: it.name, startTime: it.startTime, endTime: it.endTime))
+            list.add (new Event(id: it.id, name: it.name, startTime: it.startDateTime, endTime: it.endDateTime))
         }
         list
     }
@@ -71,7 +70,7 @@ class CalendarService {
                         "where startDateTime >= :start_time",
                 [start_time: startDate],
                 [sort:"startRecurrence", order:"asc"]).each {
-            list.add (new Event(name: it.name, startTime: it.startTime, endTime: it.endTime))
+            list.add (new Event(id: it.id, name: it.name, startTime: it.startDateTime, endTime: it.endDateTime))
         }
         list
     }
@@ -86,8 +85,11 @@ class CalendarService {
                 DateTime nextInstance = ruleIterator.nextDateTime();
                 LocalDate nextOccurenceDate = LocalDate.parse(nextInstance.toString(), shortDateFormatter)
                 // we have the next occurence date, we need to setup time accordingly
-                LocalDateTime startTime = nextOccurenceDate.atStartOfDay().plusHours(it.hour).plusMinutes(it.minute)
+                ZonedDateTime startTime = ZonedDateTime.of(
+                        nextOccurenceDate.atStartOfDay().plusHours(it.hour).plusMinutes(it.minute),
+                        localZone)
                 returnList.add(new Event(
+                        id: it.id,
                         name: it.name,
                         startTime: startTime,
                         endTime: startTime.plusMinutes(it.duration)
@@ -108,8 +110,11 @@ class CalendarService {
                 LocalDate nextOccurenceDate = LocalDate.parse(nextInstance.toString(), shortDateFormatter)
                 if (!nextOccurenceDate.isAfter(endDate)) {
                     // we have the next occurence date, we need to setup time accordingly
-                    LocalDateTime startTime = nextOccurenceDate.atStartOfDay().plusHours(it.hour).plusMinutes(it.minute)
+                    ZonedDateTime startTime = ZonedDateTime.of(
+                            nextOccurenceDate.atStartOfDay().plusHours(it.hour).plusMinutes(it.minute),
+                            localZone)
                     returnList.add(new Event(
+                            id: it.id,
                             name: it.name,
                             startTime: startTime,
                             endTime: startTime.plusMinutes(it.duration)
