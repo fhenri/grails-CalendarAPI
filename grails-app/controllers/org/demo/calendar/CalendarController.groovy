@@ -27,12 +27,4 @@ class CalendarController extends RestfulController {
             respond([])
         }
     }
-
-    def testview () {
-        def listEvent = [
-            new Event (name: "test 1"),
-            new Event (name: "test 2")
-        ]
-        respond (listEvent)
-    }
 }
