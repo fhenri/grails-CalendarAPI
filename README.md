@@ -41,9 +41,13 @@ The [BootStrap](grails-app/init/org/demo/calendar/BootStrap.groovy) class define
 * `/calendar/search` will return all events (as CalendarEvent) matching a query name pattern
 * `/calendar/findByDate` (most interesting end point) will retrieve all events (as generated Event) after a given date (given a max of 100 entries) or all events between 2 given dates. 
 
+## Running App
+
+The App is configured to run with grails version 4.0.12 (there's a grails5 branch to run with grails version 5, be aware it might not be updated with latest code) and run `grails run-app` or from the grails CLI; if you dont have grails installed you can run using the provided wrapper using the command `./grailsw run-app`
+
 ## Running Test
 
-`grails test-app` will just return errors, I dont know for what reasons but grails 4 has changes on the Spec test and my tests are not working. Even the dummy ones on UrlMappings is not working.
+`./grailsw test-app` will just return errors, I dont know for what reasons but grails 4 has changes on the Spec test and my tests are not working. Even the dummy ones on UrlMappings is not working.
 the test on controllers are not working neither, I can overcome the current error by adding a @transactional annotation (which would make the test more as integration test) but anyway I get another error on hibernate session.
 I spent a bit of time on this and moved to something else.
 
